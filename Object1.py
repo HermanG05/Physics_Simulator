@@ -1,11 +1,21 @@
-from main import *
+import pygame as py 
 
-class Object1(py.sprite.Sprite): 
-    def __init__ (self, x, y):
-        body = py.Rect(100,100,100,100)
-        self.rect = self.body.get_rect()
-        self.width = 50
-        self.height = 50
+class Object(py.sprite.Sprite): 
+    def __init__(self, screen, color, x, y, width, height, mass):
+        super().__init__()
+        self.image = py.Surface((width, height))
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
+        self.screen = screen
+        self.mass = mass
+        self.dy = 0  # Vertical velocity
+
+    def gravity(self):
+        gravity = 0.5  
+        acceleration = gravity / self.mass  
+        self.dy += acceleration
+        self.rect.y += self.dy
 
     def draw(self):
-        screen.blit()
+        self.screen.blit(self.image, self.rect.topleft)
